@@ -1,5 +1,3 @@
-
-
 from sklearn.model_selection import train_test_split
 import cPickle
 from utils import *
@@ -49,9 +47,9 @@ y_val = y_train[400:]
 X_train = X_train[:400]
 y_train = y_train[:400]
 
-train_text = [' '.join(s) for s in X_train]
-val_text = [' '.join(s) for s in X_val]
-test_text = [' '.join(s) for s in X_test]
+train_text = [''.join(s) for s in X_train]
+val_text = [''.join(s) for s in X_val]
+test_text = [''.join(s) for s in X_test]
 
 X_train = convert_word_to_ix(X_train,wordtoix)
 X_val = convert_word_to_ix(X_val,wordtoix)

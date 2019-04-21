@@ -1,4 +1,4 @@
-import os, sys, cPickle
+import os, sys, pickle
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -7,7 +7,7 @@ import numpy as np
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-class LeamNet(nn.Module):
+class LSTM(nn.Module):
     def __init__(self, opt):
         """
         In the constructor we instantiate two nn.Linear modules and assign them as
@@ -15,7 +15,7 @@ class LeamNet(nn.Module):
         """
         # comment notation
         #  b: batch size, s: sequence length, e: embedding dim, c : num of class
-        super(LeamNet, self).__init__()
+        super(LSTM, self).__init__()
         # Define the layers
         self.embed_x = nn.Embedding(opt.n_words, opt.embed_size) 
         self.embed_y = nn.Embedding(opt.num_class, opt.embed_size)

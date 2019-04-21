@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+data/*
+.DS_Store
+RedditScrapeToy/*.ipynb
+RedditScrapeToy/.DS_Store
+*.ipynb

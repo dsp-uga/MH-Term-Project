@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os, sys, cPickle
+import os, sys, pickle
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

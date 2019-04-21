@@ -44,6 +44,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random
 
 X_val = X_train[400:]
 y_val = y_train[400:]
+print(y_val)
+print(y_train)
 X_train = X_train[:400]
 y_train = y_train[:400]
 

@@ -11,22 +11,22 @@ class Options(object):
         self.maxlen = 305
         self.n_words = None
         self.embed_size = 300
-        self.lr = 1e-3
-        self.batch_size = 100
-        self.max_epochs = 10
+        self.lr = 5e-4
+        self.batch_size = 40
+        self.max_epochs = 300
         self.dropout = 0.5
         self.part_data = False
         self.portion = 1.0
         self.save_path = "../model_trace/"
         self.log_path = "./log/"
-        self.print_freq = 100
-        self.valid_freq = 100
+        self.print_freq = 10
+        self.valid_freq = 10
 
         self.optimizer = 'Adam'
         self.clip_grad = None
         self.class_penalty = 1.0
-        self.ngram = 55 # Currently only support odd numbers
-        self.H_dis = 300
+        self.ngram = 31 # Currently only support odd numbers
+        self.H_dis = 600
 
 
     def __iter__(self):
@@ -38,6 +38,7 @@ def load_class_embedding( wordtoidx, opt):
     print("load class embedding")
     name_list = [ k.lower().split(' ') for k in opt.class_name]
     id_list = [ [ wordtoidx[i] for i in l] for l in name_list]
+    #print(len(opt.W_emb[0]))
     value_list = [ [ opt.W_emb[i] for i in l]    for l in id_list]
     value_mean = [ np.mean(l,0)  for l in value_list]
     return np.asarray(value_mean)

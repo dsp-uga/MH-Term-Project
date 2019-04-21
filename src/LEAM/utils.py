@@ -11,9 +11,9 @@ class Options(object):
         self.maxlen = 305
         self.n_words = None
         self.embed_size = 300
-        self.lr = 5e-4
+        self.lr = 3e-4
         self.batch_size = 40
-        self.max_epochs = 300
+        self.max_epochs = 100
         self.dropout = 0.5
         self.part_data = False
         self.portion = 1.0
@@ -92,16 +92,3 @@ def read_file(file_name):
     return f.read().split('\n')
     #return f.read().split('\n')
 
-
-def convert_word_to_ix(data,wordtoix):
-    result = []
-    for sent in data:
-        temp = []
-        for w in sent:
-            if w in wordtoix:
-                temp.append(wordtoix[w])
-            else:
-                temp.append(1)
-        temp.append(0)
-        result.append(temp)
-    return result

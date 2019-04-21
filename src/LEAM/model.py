@@ -32,6 +32,9 @@ class LeamNet(nn.Module):
         # Init the weights
         self.embed_x.weight.data = self.embed_x.weight.data + torch.tensor(opt.W_emb,requires_grad=True)
         self.embed_y.weight.data = self.embed_y.weight.data + torch.tensor(opt.W_class_emb,requires_grad=True)
+        
+        #self.embed_x.weight.data = self.embed_x.weight.data + torch.tensor(opt.W_emb,requires_grad=False)
+        #self.embed_y.weight.data = self.embed_y.weight.data + torch.tensor(opt.W_class_emb,requires_grad=False)
     
     def forward(self, x, x_mask, opt):
         """

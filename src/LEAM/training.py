@@ -14,8 +14,8 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 
 opt = Options() # Please specify the options in utils.py file
-loadpath = "../data/word_dic.p"
-embpath = "../data/word_emb_ver_1.0.p"
+loadpath = "../../data/word_dic.p"
+embpath = "../../data/word_emb_ver_1.0.p"
 opt.num_class = 4
 opt.class_name = ['normal', 'depression', 'bipolar', 'traumatic']
 

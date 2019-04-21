@@ -1,10 +1,22 @@
 from sklearn.model_selection import train_test_split
 import cPickle
-from utils import *
 import pandas as pd
 
 
-data_path = "../data/cleaned_data.csv"
+def convert_word_to_ix(data,wordtoix):
+    result = []
+    for sent in data:
+        temp = []
+        for w in sent.split():
+            if w in wordtoix:
+                temp.append(wordtoix[w])
+            else:
+                temp.append(1)
+        temp.append(0)
+        result.append(temp)
+    return result
+
+data_path = "../../data/cleaned_data.csv"
 
 df = pd.read_csv(data_path)
 y = [[0,0,0,0] for _ in df['label']]
@@ -44,8 +56,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random
 
 X_val = X_train[400:]
 y_val = y_train[400:]
-print(y_val)
-print(y_train)
+print(X_val)
+#print(y_train)
 X_train = X_train[:400]
 y_train = y_train[:400]
 
@@ -57,4 +69,4 @@ X_train = convert_word_to_ix(X_train,wordtoix)
 X_val = convert_word_to_ix(X_val,wordtoix)
 X_test = convert_word_to_ix(X_test,wordtoix)
 
-cPickle.dump([X_train, X_val, X_test, train_text, val_text, test_text, y_train, y_val, y_test, wordtoix, ixtoword], open("../data/word_dic.p", "wb"))
+cPickle.dump([X_train, X_val, X_test, train_text, val_text, test_text, y_train, y_val, y_test, wordtoix, ixtoword], open("../../data/word_dic.p", "wb"))

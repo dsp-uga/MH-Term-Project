@@ -11,11 +11,11 @@ def get_data(feature):
     return: a tuple of (X_train, X_val, X_test, y_train, y_val, y_test)
     """
     if feature == 'word_count':
-        file_path = '../data/word_count.p'
+        file_path = '../../data/word_count.p'
     elif feature == 'tfidf':
-        file_path = '../data/tfidf.p'
+        file_path = '../../data/tfidf.p'
     elif feature == 'tfidf_ngram':
-        file_path = '../data/tfidf_ngram.p'
+        file_path = '../../data/tfidf_ngram.p'
     else:
         print('error in featur config')
         exit(1)

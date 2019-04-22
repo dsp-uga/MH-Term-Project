@@ -1,12 +1,8 @@
-# -*- coding: utf-8 -*-
-
 import os, sys, pickle
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-import _uniout
-
 from model import *
 from utils import *
 
@@ -17,9 +13,13 @@ opt = Options() # Please specify the options in utils.py file
 loadpath = "../../data/word_dic.p"
 embpath = "../../data/word_emb_ver_1.0.p"
 opt.num_class = 4
-opt.class_name = ['normal', 'depression', 'bipolar', 'traumatic']
+opt.class_name = ['normal', 'depression', 'traumatic', 'bipolar']
 
-x = cPickle.load(open(loadpath, "rb"))
+with open(loadpath, 'rb') as f:
+    u = pickle._Unpickler(f)
+    u.encoding = 'latin1'
+    x = u.load()
+
 train, val, test = x[0], x[1], x[2]
 train_lab, val_lab, test_lab = x[6], x[7], x[8]
 wordtoix, ixtoword = x[9], x[10]
@@ -37,20 +37,27 @@ test_lab = np.array(test_lab, dtype='float32')
 opt.n_words = len(ixtoword)
 
 
-opt.W_emb = np.array(cPickle.load(open(embpath, 'rb')),dtype='float32')[0]
+with open(embpath, 'rb') as f:
+    u = pickle._Unpickler(f)
+    u.encoding = 'latin1'
+    embed_vector = u.load()
+
+opt.W_emb = np.array(embed_vector, dtype='float32')[0]
 opt.W_class_emb = load_class_embedding( wordtoix, opt)
 uidx = 0
 max_val_accuracy = 0.
 max_test_accuracy = 0.
 
+##################################
+
 # Build model
-model = LeamNet(opt).to(device)
+model = RNN(opt).to(device)
 
 # Component of loss function
 loss_func = nn.BCEWithLogitsLoss().to(device)
 
 # Optimizer setting
-optimizer = torch.optim.Adam(model.parameters(), lr=opt.lr)
+optimizer = torch.optim.SGD(model.parameters(), lr=opt.lr)
 
 # Preparation of regularization in loss
 class_y = torch.tensor(np.identity(opt.num_class)).type(torch.FloatTensor).to(device)
@@ -78,13 +85,14 @@ for epoch in range(opt.max_epochs):
         x_batch_mask = torch.tensor(x_batch_mask).to(device)
         
         # Forward model
-        logits, logits_class, Att_v = model(x_batch, x_batch_mask, opt)
+        # logits, logits_class = model(x_batch, opt)
+        logits = model(x_batch, opt)
         
         # Loss calc
-        loss1 = loss_func(logits, torch.tensor(x_labels).to(device)).to(device)
-        loss2 = loss_func(logits_class, class_y).to(device)
+        loss = loss_func(logits, torch.tensor(x_labels).to(device)).to(device)
+        # loss2 = loss_func(logits_class, class_y).to(device)
 
-        loss = loss1 + opt.class_penalty * loss2
+        # loss = loss1 + opt.class_penalty * loss2
         
         train_loss.append([uidx, loss.item()])
         
@@ -123,7 +131,8 @@ for epoch in range(opt.max_epochs):
                 x_val_batch_mask = torch.tensor(x_val_batch_mask).to(device)
 
                 # Evaluations
-                logits_val, logits_class_val, Att_v  = model(x_val_batch, x_val_batch_mask, opt)
+                # logits_val, logits_class_val  = model(x_val_batch, opt)
+                logits_val = model(x_val_batch, opt)
 
                 # Acc calc
 

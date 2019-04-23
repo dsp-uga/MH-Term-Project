@@ -13,8 +13,8 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 
 opt = Options() # Please specify the options in utils.py file
-loadpath = "/Users/leixian/Downloads/2classes/word_dic_2class.p"
-embpath = "/Users/leixian/Downloads/2classes/word_emb_2class_ver_1.0.p"
+loadpath = "/Users/leixian/git/MH-Term-Project/src/CNN2class/word_dic_2class.p"
+embpath = "/Users/leixian/git/MH-Term-Project/src/CNN2class/word_emb_2class_ver_1.0.p"
 opt.num_class = 2
 opt.class_name = ['normal', 'ill']
 
@@ -60,6 +60,7 @@ if not os.path.isdir(opt.save_path):
 train_loss = []
 train_acc = []
 val_acc = []
+val_loss = []
 
 for epoch in range(opt.max_epochs):
     print("Starting epoch %d over %d" % (epoch, opt.max_epochs))
@@ -93,6 +94,7 @@ for epoch in range(opt.max_epochs):
         
         if uidx % opt.valid_freq == 0:
             print("Iteration %d: Training loss %f " % (uidx, loss))
+            print(uidx)
             
             # Acc Calc
         
@@ -133,6 +135,7 @@ for epoch in range(opt.max_epochs):
 
             val_current_acc = val_correct / len(val)
             print("Validation accuracy %f " % val_current_acc)
+            print(uidx)
             val_acc.append([uidx, val_current_acc.item()])
         
         

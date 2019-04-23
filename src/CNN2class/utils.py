@@ -17,7 +17,7 @@ class Options(object):
         self.dropout = 0.5
         self.part_data = False
         self.portion = 1.0
-        self.save_path = "../model_trace/"
+        self.save_path = "../"
         self.log_path = "./log/"
         self.print_freq = 10
         self.valid_freq = 10

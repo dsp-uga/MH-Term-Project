@@ -13,12 +13,12 @@ class Options(object):
         self.embed_size = 300
         self.lr = 5e-4
         self.batch_size = 40
-        self.max_epochs = 300
+        self.max_epochs = 50
         self.dropout = 0.5
         self.part_data = False
         self.portion = 1.0
-        self.save_path = "../../model_trace/"
-        self.log_path = "./log/"
+        self.save_path = "./.model_trace/"
+        self.log_path = "./.log/"
         self.print_freq = 10
         self.valid_freq = 10
 
@@ -27,6 +27,10 @@ class Options(object):
         self.class_penalty = 1.0
         self.ngram = 31 # Currently only support odd numbers
         self.H_dis = 600
+    
+        self.hidden_dim = 256
+        self.n_layers = 2
+        self.bidirectional = True
 
 
     def __iter__(self):

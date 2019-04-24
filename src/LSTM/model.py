@@ -65,7 +65,7 @@ class LSTMNet(nn.Module):
         #embedded = [sentence len, batch size, embedding dim]
         
         #pack sequence
-        packed_embedded = nn.utils.rnn.pack_padded_sequence(embedded, torch.tensor([opt.maxlen] * 121))
+        packed_embedded = nn.utils.rnn.pack_padded_sequence(embedded, torch.tensor([opt.maxlen] * opt.batch_size))
         packed_output, (hidden, cell) = self.rnn(packed_embedded)
         
         #unpack sequence

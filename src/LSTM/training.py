@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import os, sys, pickle
 import torch
 import torch.nn as nn

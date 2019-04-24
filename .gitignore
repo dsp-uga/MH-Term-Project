@@ -110,8 +110,8 @@ RedditScrapeToy/.DS_Store
 *.ipynb
 model_trace
 src/LSTM/*.png
-src/LSTM/.model_trace
+src/LSTM/*model_trace
 src/LSTM/.log
 src/LSTM_2class/*png
-src/LSTM_2class/.model_trace
+src/LSTM_2class/*model_trace
 src/LSTM_2class/.log

@@ -39,7 +39,7 @@ def train_model(classifier, X_train, y_train, X_test, y_test):
     @param: y_train: type, list, the label of the training dataset
     @param: X_test: type, list, the test dataset
     @param: y_test: type, list, the label of the test dataset
-    return: accuracy
+    return: a tuple of (accuracy, confusion matrix)
     """
 
     # fit the training dataset on the classifier
@@ -48,7 +48,7 @@ def train_model(classifier, X_train, y_train, X_test, y_test):
     # predict the labels on test dataset
     predictions = classifier.predict(X_test)
     
-    return metrics.accuracy_score(predictions, y_test)
+    return metrics.accuracy_score(predictions, y_test), metrics.confusion_matrix(predictions, y_test)
 
 
 def train(parameters):
@@ -61,18 +61,21 @@ def train(parameters):
     X_train, X_val, X_test, y_train, y_val, y_test = get_data(parameters.feature)
     accuracy = -1
     if parameters.model == 'naive_bayes':
-        accuracy = train_model(naive_bayes.MultinomialNB(), X_train, y_train, X_test, y_test)
+        accuracy, confusion_matrix = train_model(naive_bayes.MultinomialNB(), X_train, y_train, X_test, y_test)
     elif parameters.model == 'random_forest':
-        max_accu = 0
+        accuracy = 0
+        confusion_matrix = None
         for _ in range(10):
-            accu = train_model(ensemble.RandomForestClassifier(n_estimators=50), X_train, y_train, X_test, y_test)
-            max_accu = max(max_accu, accu)
-        accuracy = max_accu
+            accu, matrix = train_model(ensemble.RandomForestClassifier(n_estimators=50), X_train, y_train, X_test, y_test)
+            if accu > accuracy:
+                accuracy = accu
+                confusion_matrix = matrix
     elif parameters.model == 'SVM':
         accuracy = train_model(svm.SVC(gamma='auto'), X_train, y_train, X_test, y_test)
 
     if accuracy > 0:
         print("%s, %s: %f" % (parameters.model, parameters.feature, accuracy))
+        print(confusion_matrix)
 
 
 def main():

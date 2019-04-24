@@ -115,3 +115,4 @@ src/LSTM/.log
 src/LSTM_2class/*png
 src/LSTM_2class/*model_trace
 src/LSTM_2class/.log
+src/word_cloud/*png

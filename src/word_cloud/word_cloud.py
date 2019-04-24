@@ -1,48 +1,56 @@
-import numpy as np
 import pickle
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
-with open('../../data/word_dic.p', 'rb') as f:
-    u = pickle._Unpickler(f)
-    u.encoding = 'latin1'
-    X_train, X_val, X_test, train_text, val_text, test_text, y_train, y_val, y_test, wordtoix, ixtoword = u.load()
 
-text = train_text + val_text + test_text
-label = y_train + y_val + y_test  # 0: normal, 1: depression, 2: PTSD, 3: Bipolar
+def get_text():
+    """
+    get the text data from the preprocessed data file
 
-s = ''
-for sentence in text:
-    s += sentence
+    @param: None
+    return: a tuple of (text_normal, text_depression, text_PTSD, text_bipolar)
+    """
+    with open('../../data/word_dic.p', 'rb') as f:
+        u = pickle._Unpickler(f)
+        u.encoding = 'latin1'
+        X_train, X_val, X_test, train_text, val_text, test_text, y_train, y_val, y_test, wordtoix, ixtoword = u.load()
 
-text_normal, text_depression, text_PDSD, text_bipolar = '', '', '', ''
+    text = train_text + val_text + test_text
+    label = y_train + y_val + y_test  # 0: normal, 1: depression, 2: PTSD, 3: Bipolar
 
-for i in range(len(label)):
-    if label[i][0] == 1:
-        text_normal += ' ' + text[i]
-    elif label[i][1] == 1:
-        text_depression += ' ' + text[i]
-    elif label[i][2] == 1:
-        text_PDSD += ' ' + text[i]
-    else:
-        text_bipolar += ' ' + text[i]
+    text_normal, text_depression, text_PTSD, text_bipolar = '', '', '', ''
 
-wordcloud_normal = WordCloud().generate(text_normal)
-plt.imshow(wordcloud_normal, interpolation='bilinear')
-plt.savefig('word_cloud_normal.png')
-plt.clf()
+    for i in range(len(label)):
+        if label[i][0] == 1:
+            text_normal += ' ' + text[i]
+        elif label[i][1] == 1:
+            text_depression += ' ' + text[i]
+        elif label[i][2] == 1:
+            text_PTSD += ' ' + text[i]
+        else:
+            text_bipolar += ' ' + text[i]
 
-wordcloud_depression = WordCloud().generate(text_depression)
-plt.imshow(wordcloud_depression, interpolation='bilinear')
-plt.savefig('word_cloud_depression.png')
-plt.clf()
+    return text_normal, text_depression, text_PTSD, text_bipolar
 
-wordcloud_PDSD = WordCloud().generate(text_PDSD)
-plt.imshow(wordcloud_PDSD, interpolation='bilinear')
-plt.savefig('word_cloud_PDSD.png')
-plt.clf()
 
-wordcloud_bipolar = WordCloud().generate(text_bipolar)
-plt.imshow(wordcloud_bipolar, interpolation='bilinear')
-plt.savefig('word_cloud_bipolar.png')
-plt.clf()
+def plot_word_cloud(text, key):
+    """
+    plot a word cloud graph
+
+    @param: text: type, string, text could be text_normal, text_depression, text_PTSD, text_bipolar
+    @param: key: type, string, key could be 'normal', 'depression', 'PTSD', 'bipolar'
+    return: None
+    """
+    wc = WordCloud().generate(text)
+    plt.imshow(wc, interpolation='bilinear')
+    plt.savefig('word_cloud_' + key + '.png')
+    plt.clf()
+
+
+def main():
+    text_normal, text_depression, text_PTSD, text_bipolar = get_text()
+    for text, key in [(text_normal, 'normal'), (text_depression, 'depression'), (text_PTSD, 'PTSD'), (text_bipolar, 'bipolar')]:
+        plot_word_cloud(text, key)
+
+if __name__ == '__main__':
+    main()

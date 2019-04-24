@@ -11,11 +11,11 @@ def get_data(feature):
     return: a tuple of (X_train, X_val, X_test, y_train, y_val, y_test)
     """
     if feature == 'word_count':
-        file_path = '../../data/word_count.p'
+        file_path = '../../data/word_count_2class.p'
     elif feature == 'tfidf':
-        file_path = '../../data/tfidf.p'
+        file_path = '../../data/tfidf_2class.p'
     elif feature == 'tfidf_ngram':
-        file_path = '../../data/tfidf_ngram.p'
+        file_path = '../../data/tfidf_ngram_2class.p'
     else:
         print('error in featur config')
         exit(1)
@@ -66,7 +66,7 @@ def train(parameters):
         accuracy = 0
         confusion_matrix = None
         for _ in range(10):
-            accu, matrix = train_model(ensemble.RandomForestClassifier(n_estimators=50), X_train, y_train, X_test, y_test)
+            accu, matrix = train_model(ensemble.RandomForestClassifier(n_estimators=40), X_train, y_train, X_test, y_test)
             if accu > accuracy:
                 accuracy = accu
                 confusion_matrix = matrix

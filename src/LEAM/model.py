@@ -12,10 +12,13 @@ class LeamNet(nn.Module):
         """
         In the constructor we instantiate two nn.Linear modules and assign them as
         member variables.
+        
+        
         """
         # comment notation
         #  b: batch size, s: sequence length, e: embedding dim, c : num of class
         super(LeamNet, self).__init__()
+        
         # Define the layers
         self.embed_x = nn.Embedding(opt.n_words, opt.embed_size) 
         self.embed_y = nn.Embedding(opt.num_class, opt.embed_size)
@@ -33,8 +36,6 @@ class LeamNet(nn.Module):
         self.embed_x.weight.data = self.embed_x.weight.data + torch.tensor(opt.W_emb,requires_grad=True)
         self.embed_y.weight.data = self.embed_y.weight.data + torch.tensor(opt.W_class_emb,requires_grad=True)
         
-        #self.embed_x.weight.data = self.embed_x.weight.data + torch.tensor(opt.W_emb,requires_grad=False)
-        #self.embed_y.weight.data = self.embed_y.weight.data + torch.tensor(opt.W_class_emb,requires_grad=False)
     
     def forward(self, x, x_mask, opt):
         """

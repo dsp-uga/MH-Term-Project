@@ -16,7 +16,7 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 class LSTMNet(nn.Module):
     def __init__(self, opt):
         """
-        LSTM constructor. Define the embedding layer, LSTM block with 2 layers and using bidirectional structure
+        LSTM constructor. Define the embedding layer, LSTM block with 2 layers and using bidirectional structure.
 
         @param: opt: type, object
                 opt.maxlen = 305
@@ -50,11 +50,11 @@ class LSTMNet(nn.Module):
 
     def forward(self, text, opt):
         """
-        Forward function of the LSTM structure. Given a Tensor of input data and return a Tensor of output data
+        Forward function of the LSTM structure. Given a Tensor of input data and return a Tensor of output data.
 
-        @param: text: type, tensor with shape [batch size, sent len]
-        @param: opt: type, object
-        return: tensor of output scores with shape [batch size, num class]
+        @param: text: type, tensor with shape [batch size, sent len].
+        @param: opt: type, object.
+        return: tensor of output scores with shape [batch size, num class].
         """
         
         # transpose the input text tensor

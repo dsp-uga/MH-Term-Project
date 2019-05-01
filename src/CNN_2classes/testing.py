@@ -16,8 +16,8 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 
 opt = Options() # Please specify the options in utils.py file
-loadpath = "/Users/leixian/git/MH-Term-Project/src/CNN2class/word_dic_2class.p"
-embpath = "/Users/leixian/git/MH-Term-Project/src/CNN2class/word_emb_2class_ver_1.0.p"
+loadpath = "../../data/word_dic_2class.p"
+embpath = "../../data/word_emb_2class_ver_1.0.p"
 opt.num_class = 2
 opt.class_name = ['normal', 'ill']
 
@@ -25,10 +25,6 @@ x = cPickle.load(open(loadpath, "rb"))
 train, val, test = x[0], x[1], x[2]
 train_lab, val_lab, test_lab = x[6], x[7], x[8]
 wordtoix, ixtoword = x[9], x[10]
-#print(train_lab)
-#train_lab = [np.array([[1.],[0.],[0.],[0.]]) if x == 'normal' else np.array([[0.],[1.],[0.],[0.]]) if x == 'depression' else np.array([[0.],[0.],[1.],[0.]]) if x == 'bipolar' else np.array([[0.],[0.],[0.],[1.]]) for x in train_lab]
-#val_lab = [np.array([[1.],[0.],[0.],[0.]]) if x == 'normal' else np.array([[0.],[1.],[0.],[0.]]) if x == 'depression' else np.array([[0.],[0.],[1.],[0.]]) if x == 'bipolar' else np.array([[0.],[0.],[0.],[1.]]) for x in val_lab]
-#test_lab = [np.array([[1.],[0.],[0.],[0.]]) if x == 'normal' else np.array([[0.],[1.],[0.],[0.]]) if x == 'depression' else np.array([[0.],[0.],[1.],[0.]]) if x == 'bipolar' else np.array([[0.],[0.],[0.],[1.]]) for x in test_lab]
 del x
 print("load data finished")
 
@@ -71,15 +67,3 @@ ground_truths = np.array(torch.argmax(torch.tensor(test_lab), 1).cpu())
 
 cm = confusion_matrix(ground_truths, predictions)
 print cm
-
-'''
-for i, words, alphas_values, ground_truth, prediction in zip(range(Att_v.shape[0]), test_sents_words, Att_v, ground_truths, predictions):
-    with open(opt.save_path+"attentions/visualization_{}.html".format(i), "w") as html_file:
-        for word, alpha in zip(words, alphas_values / alphas_values.max()):
-            if word == "END":
-                continue
-            html_file.write('<font style="background: rgba(255, 255, 0, %f)"><meta charset="UTF-8">%s</font>\n' % (alpha*1.1, word.encode('utf-8')))
-        html_file.write('<br/><font><meta charset="UTF-8">Ground Truth: %s, Prediction: %s</font>\n' % (opt.class_name[ground_truth].encode('utf-8'), opt.class_name[prediction].encode('utf-8')))
-
-
-'''

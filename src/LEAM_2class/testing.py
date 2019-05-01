@@ -26,10 +26,7 @@ x = cPickle.load(open(loadpath, "rb"))
 train, val, test = x[0], x[1], x[2]
 train_lab, val_lab, test_lab = x[6], x[7], x[8]
 wordtoix, ixtoword = x[9], x[10]
-#print(train_lab)
-#train_lab = [np.array([[1.],[0.],[0.],[0.]]) if x == 'normal' else np.array([[0.],[1.],[0.],[0.]]) if x == 'depression' else np.array([[0.],[0.],[1.],[0.]]) if x == 'bipolar' else np.array([[0.],[0.],[0.],[1.]]) for x in train_lab]
-#val_lab = [np.array([[1.],[0.],[0.],[0.]]) if x == 'normal' else np.array([[0.],[1.],[0.],[0.]]) if x == 'depression' else np.array([[0.],[0.],[1.],[0.]]) if x == 'bipolar' else np.array([[0.],[0.],[0.],[1.]]) for x in val_lab]
-#test_lab = [np.array([[1.],[0.],[0.],[0.]]) if x == 'normal' else np.array([[0.],[1.],[0.],[0.]]) if x == 'depression' else np.array([[0.],[0.],[1.],[0.]]) if x == 'bipolar' else np.array([[0.],[0.],[0.],[1.]]) for x in test_lab]
+
 del x
 print("load data finished")
 
@@ -50,12 +47,12 @@ if torch.cuda.is_available():
 else:
     model.load_state_dict(torch.load(sys.argv[1],map_location='cpu'))
 
-# Get 1000 samples to test
-test_sent, test_mask = prepare_data_for_emb(test[:1000], opt)
+# Get testing samples to test
+test_sent, test_mask = prepare_data_for_emb(test, opt)
 test_sent = torch.LongTensor(test_sent).to(device)
 test_mask = torch.tensor(test_mask).to(device)
 
-test_lab = np.array(test_lab[:1000])
+test_lab = np.array(test_lab)
 test_lab = test_lab.reshape((len(test_lab), opt.num_class))
 
 logits,logits_class, Att_v = model(test_sent, test_mask, opt)
@@ -77,7 +74,7 @@ for j in np.array(test_sent.cpu()):
 predictions = np.array(torch.argmax(prob, 1).cpu())
 ground_truths = np.array(torch.argmax(torch.tensor(test_lab), 1).cpu())
 
-
+# Generating attention map for all testing samples.
 for i, words, alphas_values, ground_truth, prediction in zip(range(Att_v.shape[0]), test_sents_words, Att_v, ground_truths, predictions):
     with open(opt.save_path+"attentions/visualization_{}.html".format(i), "w") as html_file:
         for word, alpha in zip(words, alphas_values / alphas_values.max()):

@@ -3,6 +3,9 @@ import os
 import numpy as np
 
 class Options(object):
+    '''
+    Specifies the options of the model.
+    '''
     def __init__(self):
         self.fix_emb = True
         self.restore = False
@@ -45,6 +48,9 @@ def load_class_embedding( wordtoidx, opt):
 
 
 def get_minibatches_idx(n, minibatch_size, shuffle=False):
+    """
+    Helper function of getting the minibatches indexes
+    """
     idx_list = np.arange(n, dtype="int32")
 
     if shuffle:

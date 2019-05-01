@@ -2,9 +2,9 @@
 ---------------------------
 This script scraped the 900 posts from social media 'Reddit' belong to 4 classes which are:
     1. depression: 200 posts from depression subreddit
-    2. biplor disorder: 200 posts from biplor disorder subreddit
+    2. bipolar disorder: 200 posts from bipolar disorder subreddit
     3. PTSD: 200 posts from PTSD subreddit
-    4. normal: 300 posts from 7 different subressits
+    4. normal: 300 posts from 7 different subreddits
     How to run the code: python data_collection.py -i 'xyYghCuH5sm9WA' -s 'yMT68q1LgDF1sWE7g_iG5xl8Oik' -u 'jerryhuimanutd' -pw '123456abc!' -o '../' -p 'project'
 ---------------------------
 """

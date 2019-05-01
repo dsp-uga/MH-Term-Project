@@ -107,7 +107,6 @@ data/*
 .DS_Store
 RedditScrapeToy/*.ipynb
 RedditScrapeToy/.DS_Store
-*.ipynb
 model_trace
 src/LSTM/*.png
 src/LSTM/*model_trace

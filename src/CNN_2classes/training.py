@@ -13,8 +13,8 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 
 opt = Options() # Please specify the options in utils.py file
-loadpath = "/Users/leixian/git/MH-Term-Project/src/CNN2class/word_dic_2class.p"
-embpath = "/Users/leixian/git/MH-Term-Project/src/CNN2class/word_emb_2class_ver_1.0.p"
+loadpath = "../../data/word_dic_2class.p"
+embpath = "../../data/word_emb_2class_ver_1.0.p"
 opt.num_class = 2
 opt.class_name = ['normal', 'ill']
 
@@ -22,10 +22,6 @@ x = cPickle.load(open(loadpath, "rb"))
 train, val, test = x[0], x[1], x[2]
 train_lab, val_lab, test_lab = x[6], x[7], x[8]
 wordtoix, ixtoword = x[9], x[10]
-#print(train_lab)
-#train_lab = [np.array([[1.],[0.],[0.],[0.]]) if x == 'normal' else np.array([[0.],[1.],[0.],[0.]]) if x == 'depression' else np.array([[0.],[0.],[1.],[0.]]) if x == 'bipolar' else np.array([[0.],[0.],[0.],[1.]]) for x in train_lab]
-#val_lab = [np.array([[1.],[0.],[0.],[0.]]) if x == 'normal' else np.array([[0.],[1.],[0.],[0.]]) if x == 'depression' else np.array([[0.],[0.],[1.],[0.]]) if x == 'bipolar' else np.array([[0.],[0.],[0.],[1.]]) for x in val_lab]
-#test_lab = [np.array([[1.],[0.],[0.],[0.]]) if x == 'normal' else np.array([[0.],[1.],[0.],[0.]]) if x == 'depression' else np.array([[0.],[0.],[1.],[0.]]) if x == 'bipolar' else np.array([[0.],[0.],[0.],[1.]]) for x in test_lab]
 del x
 print("load data finished")
 #print(val_lab)
@@ -76,8 +72,6 @@ for epoch in range(opt.max_epochs):
         x_batch, x_batch_mask = prepare_data_for_emb(sents, opt)
         x_batch = torch.LongTensor(x_batch).to(device)
  
-        
-        
         # Forward model
         logits = model(x_batch, opt)
         

@@ -1,3 +1,8 @@
+"""
+    This structure is highly inspired by
+    https://github.com/bentrevett/pytorch-sentiment-analysis/blob/master/2%20-%20Upgraded%20Sentiment%20Analysis.ipynb
+"""
+
 import os, sys, cPickle
 import torch
 import torch.nn as nn
@@ -10,8 +15,20 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 class SimpleCNN(nn.Module):
     def __init__(self, opt):
         """
-        In the constructor we instantiate two nn.Linear modules and assign them as
-        member variables.
+        CNN constructor. Define the embedding layer, 3 conv3D layer with different window sizes followed one dense layer.
+            
+        @param: opt: type, object
+            opt.maxlen = 305
+            opt.n_words = None
+            opt.embed_size = 300
+            opt.batch_size = 40
+            opt.max_epochs = 30
+            opt.dropout = 0.5
+            opt.ngram = 31 # Currently only support odd numbers
+            opt.n_layers = 2
+            opt.filter_sizes = [2,3,4]
+            opt.n_filters = 100
+        return: void
         """
         super(SimpleCNN, self).__init__()
         # Define the layers

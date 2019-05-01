@@ -30,6 +30,7 @@ class Options(object):
     
         self.filter_sizes = [2,3,4]
         self.n_filters = 100
+        self.num_class = 2
 
 
     def __iter__(self):

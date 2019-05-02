@@ -4,7 +4,7 @@
 ### Members 
 * Lei Xian 
 * Jiahao Xu
-* Shi Yang 
+* Yang Shi
 ## Technology 
 * Python
 * PyTorch
@@ -57,10 +57,6 @@ Analyse posts from the social media platform Reddit and develope different class
 * CNN
 * Bidirection LSTM
 * LEAM (Label-Embedding Attentive Model)
-
-## Results
-
-
 
 ## Reference
 * Wang, Guoyin, et al. "Joint Embedding of Words and Labels for Text Classification." Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers). 2018.
